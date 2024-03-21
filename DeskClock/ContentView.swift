@@ -8,15 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
+    @State private var timeString = "--:--"
+
+      let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
+      var body: some View {
+        Text(timeString)
+          .onReceive(timer) { _ in
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm:ss"
+            timeString = formatter.string(from: Date())
+          }
+          .font(.system(size: 40))
+          .padding()
+      }
 }
 
 #Preview {
